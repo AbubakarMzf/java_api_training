@@ -29,6 +29,7 @@ public class startHandler implements HttpHandler {
             exchange.sendResponseHeaders(404, "Erreur".length());
             exchange.getResponseBody().write("Erreur".getBytes());
         }
+        exchange.close();
     }
 
     public void response(StartSchema startSchema, HttpExchange exchange) throws  IOException{
