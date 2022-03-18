@@ -16,7 +16,7 @@ public class Launcher {
                 HttpServer server = HttpServer.create(addr, 0);
                 server.setExecutor(Executors.newFixedThreadPool(1));
                 server.createContext("/ping", new pingHandler());
-                //server.createContext("/api/game/start", new startHandler());
+                server.createContext("/api/game/start", new startHandler());
                 server.start();
             }
             else{
