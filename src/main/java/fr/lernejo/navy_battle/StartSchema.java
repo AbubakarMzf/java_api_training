@@ -22,6 +22,9 @@ public class StartSchema {
                 !this.message.isEmpty() && !this.id.isEmpty() && !this.url.isEmpty());
     }
     public String toString() {
-        return ("{'id': " + this.id + ", 'url': " + this.url + ", 'message': " + this.message + "}");
+        return ("{\"id\": \"" + this.id + "\", \"url\": \"" + this.url + "\", \"message\": \"" + this.message + "\"}");
+    }
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
