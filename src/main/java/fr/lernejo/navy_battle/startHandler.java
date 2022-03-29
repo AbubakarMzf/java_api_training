@@ -1,5 +1,6 @@
 package fr.lernejo.navy_battle;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -17,6 +18,7 @@ public class startHandler implements HttpHandler {
         if (checkVerb(exchange)) {
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
                 InputStream fileInputStream = exchange.getRequestBody();
                 String body = new String(fileInputStream.readAllBytes(), StandardCharsets.UTF_8);
                 StartSchema startSchema = objectMapper.readValue(body, StartSchema.class);
@@ -29,7 +31,6 @@ public class startHandler implements HttpHandler {
             exchange.sendResponseHeaders(404, "Erreur".length());
             exchange.getResponseBody().write("Erreur".getBytes());}
         exchange.close();}
-
     public void response(StartSchema startSchema, HttpExchange exchange) throws  IOException{
         if (startSchema.isValid()) {
             exchange.sendResponseHeaders(202, startSchema.toString().length());
@@ -37,15 +38,10 @@ public class startHandler implements HttpHandler {
         }
         else {
             exchange.sendResponseHeaders(400, "Erreur".length());
-            exchange.getResponseBody().write("Erreur".getBytes());
-        }
+            exchange.getResponseBody().write("Erreur".getBytes());}
     }
-
     public boolean checkVerb(HttpExchange exchange){
-        if (exchange.getRequestMethod().equals("POST")) {
-            return true;
-        }
-        return false;
+        return exchange.getRequestMethod().equals("POST");
     }
 }
 

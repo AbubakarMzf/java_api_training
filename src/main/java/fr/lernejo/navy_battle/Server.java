@@ -11,18 +11,20 @@ import java.net.http.HttpResponse;
 import java.util.concurrent.Executors;
 
 public class Server {
-    private int port;
-    public HttpServer createServer(int port) throws IOException {
+    private final int port;
+    public Server(int port){
         this.port = port;
-        InetSocketAddress addr = new InetSocketAddress(port);
-        HttpServer server = HttpServer.create(addr, 0);
-        return server;
+    }
+    public HttpServer createServer(Server serverClass) throws IOException {
+        InetSocketAddress addr = new InetSocketAddress(this.port);
+        return HttpServer.create(addr, 0);
     }
 
-    public void createContext(HttpServer server) throws IOException {
+    public void createContext(HttpServer server, Sea sea) throws IOException {
         server.setExecutor(Executors.newFixedThreadPool(1));
         server.createContext("/ping", new pingHandler());
         server.createContext("/api/game/start", new startHandler());
+        server.createContext("/api/game/fire", new tirHandler(sea));
     }
 
     public HttpResponse<String> initClient(String url) throws IOException, InterruptedException {
