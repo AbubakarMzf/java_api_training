@@ -7,6 +7,12 @@ public class StartSchema {
     private String url;
     private String message;
 
+    public StartSchema(){
+        this.id = null;
+        this.url = null;
+        this.message = null;
+    }
+
     public String getId() {
         return id;
     }

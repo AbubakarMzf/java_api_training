@@ -21,19 +21,14 @@ public class startHandler implements HttpHandler {
                 String body = new String(fileInputStream.readAllBytes(), StandardCharsets.UTF_8);
                 StartSchema startSchema = objectMapper.readValue(body, StartSchema.class);
                 startSchema.setUrl("http://localhost:" + exchange.getLocalAddress().getPort() + exchange.getRequestURI().toString());
-                response(startSchema, exchange);
-            }
+                response(startSchema, exchange);}
             catch (Exception e){
                 exchange.sendResponseHeaders(404, "Erreur".length());
-                exchange.getResponseBody().write("Erreur".getBytes());;
-            }
-        }
+                exchange.getResponseBody().write("Erreur".getBytes());}}
         else {
             exchange.sendResponseHeaders(404, "Erreur".length());
-            exchange.getResponseBody().write("Erreur".getBytes());
-        }
-        exchange.close();
-    }
+            exchange.getResponseBody().write("Erreur".getBytes());}
+        exchange.close();}
 
     public void response(StartSchema startSchema, HttpExchange exchange) throws  IOException{
         if (startSchema.isValid()) {

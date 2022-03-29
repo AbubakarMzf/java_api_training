@@ -12,11 +12,10 @@ public class Launcher {
         try{
             if (args.length > 0) {
                 int port = Integer.parseInt(args[0]);
-                InetSocketAddress addr = new InetSocketAddress(port);
-                HttpServer server = HttpServer.create(addr, 0);
-                server.setExecutor(Executors.newFixedThreadPool(1));
-                server.createContext("/ping", new pingHandler());
-                server.createContext("/api/game/start", new startHandler());
+                Server serverClass = new Server();
+                HttpServer server = serverClass.createServer(port);
+                serverClass.createContext(server);
+                //if (args.length == 2 && urlValidator.isValid(args[1])) {server.createClient(args[1])};
                 server.start();
             }
             else{
