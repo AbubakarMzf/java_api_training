@@ -15,7 +15,7 @@ public class Launcher {
                 Server serverClass = new Server();
                 HttpServer server = serverClass.createServer(port);
                 serverClass.createContext(server);
-                //if (args.length == 2 && urlValidator.isValid(args[1])) {server.createClient(args[1])};
+                if (args.length == 2) {serverClass.initClient(args[1]);}
                 server.start();
             }
             else{
@@ -23,6 +23,8 @@ public class Launcher {
             }
         } catch (NumberFormatException e) {
             System.out.println("Invalid parameter. First parameter should be an integer.");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
