@@ -9,6 +9,10 @@ import com.sun.net.httpserver.HttpHandler;
 
 import java.io.*;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
 
@@ -23,7 +27,11 @@ public class startHandler implements HttpHandler {
                 String body = new String(fileInputStream.readAllBytes(), StandardCharsets.UTF_8);
                 StartSchema startSchema = objectMapper.readValue(body, StartSchema.class);
                 startSchema.setUrl("http://localhost:" + exchange.getLocalAddress().getPort() + exchange.getRequestURI().toString());
-                response(startSchema, exchange);}
+                System.out.println("recu de " + exchange.getRequestHeaders().get("sender").get(0));
+                System.out.println("envoyé par " + exchange.getLocalAddress().toString());
+                response(startSchema, exchange);
+                responseToClient(exchange.getRequestHeaders().get("sender").get(0), exchange);
+            }
             catch (Exception e){
                 exchange.sendResponseHeaders(404, "Erreur".length());
                 exchange.getResponseBody().write("Erreur".getBytes());}}
@@ -40,6 +48,18 @@ public class startHandler implements HttpHandler {
             exchange.sendResponseHeaders(400, "Erreur".length());
             exchange.getResponseBody().write("Erreur".getBytes());}
     }
+    public HttpResponse<String> responseToClient(String url, HttpExchange exchange) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest requeteGet = HttpRequest.newBuilder()
+            .uri(URI.create(url + "/api/game/fire?cell=A0"))
+            .setHeader("Accept", "application/json")
+            .setHeader("Content-Type", "application/json")
+            .setHeader("sender", "http://localhost:" + exchange.getLocalAddress().getPort())
+            .GET()
+            .build();
+        return client.send(requeteGet, HttpResponse.BodyHandlers.ofString());
+    }
+
     public boolean checkVerb(HttpExchange exchange){
         return exchange.getRequestMethod().equals("POST");
     }

@@ -12,6 +12,7 @@ import java.util.concurrent.Executors;
 
 public class Server {
     private final int port;
+
     public Server(int port){
         this.port = port;
     }
@@ -33,8 +34,13 @@ public class Server {
             .uri(URI.create(url + "/api/game/start"))
             .setHeader("Accept", "application/json")
             .setHeader("Content-Type", "application/json")
+            .setHeader("sender", "http://localhost:" + this.port)
             .POST(HttpRequest.BodyPublishers.ofString("{\"id\":\"1\", \"url\":\"http://localhost:" + this.port + "\", \"message\":\"hello\"}"))
             .build();
         return client.send(requetePost, HttpResponse.BodyHandlers.ofString());
     }
+    public void playGame(){
+
+    }
+
 }
