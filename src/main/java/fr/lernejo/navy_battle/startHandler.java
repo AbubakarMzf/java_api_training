@@ -21,18 +21,21 @@ public class startHandler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         if (checkVerb(exchange)) {
             try {
+                System.out.println("dans start");
                 ObjectMapper objectMapper = new ObjectMapper();
                 objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
                 InputStream fileInputStream = exchange.getRequestBody();
                 String body = new String(fileInputStream.readAllBytes(), StandardCharsets.UTF_8);
                 StartSchema startSchema = objectMapper.readValue(body, StartSchema.class);
                 startSchema.setUrl("http://localhost:" + exchange.getLocalAddress().getPort() + exchange.getRequestURI().toString());
-                System.out.println("recu de " + exchange.getRequestHeaders().get("sender").get(0));
-                System.out.println("envoyé par " + exchange.getLocalAddress().toString());
+                System.out.println("starthandl : " + getContent(exchange));
                 response(startSchema, exchange);
+                System.out.println("sender " + exchange.getRequestHeaders().get("sender").get(0));
                 responseToClient(exchange.getRequestHeaders().get("sender").get(0), exchange);
+                //if (exchange.getRequestHeaders().get("sender") != null) {responseToClient(exchange.getRequestHeaders().get("sender").get(0), exchange);}
             }
             catch (Exception e){
+                System.out.println(e.getMessage());
                 exchange.sendResponseHeaders(404, "Erreur".length());
                 exchange.getResponseBody().write("Erreur".getBytes());}}
         else {
@@ -62,6 +65,23 @@ public class startHandler implements HttpHandler {
 
     public boolean checkVerb(HttpExchange exchange){
         return exchange.getRequestMethod().equals("POST");
+    }
+    private String getContent(HttpExchange exchange) throws IOException {
+        /*
+         * It would be nice to not assume UTF8 below, but I don't know how to do
+         * that. Maybe escaping is actually done with HTML escapes. I should
+         * read up on this. For now I leave it like this.
+         */
+
+        BufferedReader httpInput = new BufferedReader(new InputStreamReader(
+            exchange.getRequestBody(), "UTF-8"));
+        StringBuilder in = new StringBuilder();
+        String input;
+        while ((input = httpInput.readLine()) != null) {
+            in.append(input).append(" ");
+        }
+        httpInput.close();
+        return in.toString().trim();
     }
 }
 

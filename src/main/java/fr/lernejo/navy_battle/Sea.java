@@ -8,12 +8,12 @@ public class Sea {
         sea.add(new Avion(0,0)); sea.add(new Avion(0,1)); sea.add(new Avion(0,2)); sea.add(new Avion(0,3));
         sea.add(new Avion(0,4));
         sea.add(new Torpilleur(1,5)); sea.add(new Torpilleur(1,6));
-        sea.add(new ContreTorpilleur(5,7)); sea.add(new ContreTorpilleur(5,8));sea.add(new ContreTorpilleur(5,9));
-        sea.add(new ContreTorpilleur(6,7)); sea.add(new ContreTorpilleur(6,8));sea.add(new ContreTorpilleur(6,9));
-        sea.add(new Croiseur(9,3));
-        sea.add(new Croiseur(9,4));
-        sea.add(new Croiseur(9,5));
-        sea.add(new Croiseur(9,6));
+        sea.add(new ContreTorpilleur(3,3)); sea.add(new ContreTorpilleur(3,4));sea.add(new ContreTorpilleur(3,5));
+        sea.add(new ContreTorpilleur(4,5)); sea.add(new ContreTorpilleur(4,6));sea.add(new ContreTorpilleur(4,7));
+        sea.add(new Croiseur(5,3));
+        sea.add(new Croiseur(5,4));
+        sea.add(new Croiseur(5,5));
+        sea.add(new Croiseur(5,6));
     }
     public ArrayList<Objet> getSea() {
         return sea;
