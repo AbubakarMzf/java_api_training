@@ -50,9 +50,15 @@ public class tirHandler implements HttpHandler {
                 String result = sea.checkPosition(cases.charAt(0) - 65 ,(cases.charAt(1) - 1) % 48);
                 boolean shipLeft = sea.getSea().size() != 0;
 
+
+                String response = "{\"consequence\":" + "\"" + result + "\"" + ", \"shipLeft\":" + "\"" + shipLeft + "\"" + "}";
                 exchange.getResponseHeaders().add("Content-Type", "application/json");
-                exchange.sendResponseHeaders(200, ("{\"consequence\":" + "\"" + result + "\"" + ", \"shipLeft\":" + "\"" + shipLeft + "\"" + "}").length());
-                exchange.getResponseBody().write(("{\"consequence\":" + "\"" + result + "\"" + ", \"shipLeft\":" + "\"" + shipLeft + "\"" + "}").getBytes());
+                exchange.sendResponseHeaders(200, response.length());
+                try (OutputStream os = exchange.getResponseBody()) {
+                    os.write(response.toString().getBytes());
+                }
+
+
                 //System.out.println("la : " + getContent(exchange));
                 System.out.println("sender " + exchange.getRequestHeaders().get("sender").get(0));
 
@@ -94,7 +100,6 @@ public class tirHandler implements HttpHandler {
             .setHeader("sender", "http://localhost:" + exchange.getLocalAddress().getPort())
             .GET()
             .build();
-        System.out.println(this.getCellFromInt());
         this.current_cell[0]++;
         return client.send(requeteGet, HttpResponse.BodyHandlers.ofString()).body();
     }

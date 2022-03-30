@@ -50,7 +50,7 @@ public class startHandler implements HttpHandler {
     public HttpResponse<String> responseToClient(String url, HttpExchange exchange) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest requeteGet = HttpRequest.newBuilder()
-            .uri(URI.create(url + "/api/game/fire?cell=A0"))
+            .uri(URI.create(url + "/api/game/fire?cell=F2"))
             .setHeader("Accept", "application/json")
             .setHeader("Content-Type", "application/json")
             .setHeader("sender", "http://localhost:" + exchange.getLocalAddress().getPort())

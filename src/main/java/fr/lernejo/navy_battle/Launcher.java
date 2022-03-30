@@ -12,7 +12,6 @@ public class Launcher {
 
     public static void main(String[] args) throws IOException {
         try{if (args.length > 0) {
-
                 Server serverClass = new Server(Integer.parseInt(args[0]));
                 HttpServer server = serverClass.createServer(serverClass);
                 Sea sea = new Sea();
