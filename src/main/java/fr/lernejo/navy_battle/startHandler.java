@@ -34,14 +34,10 @@ public class startHandler implements HttpHandler {
                 responseToClient(exchange.getRequestHeaders().get("sender").get(0), exchange);
                 //if (exchange.getRequestHeaders().get("sender") != null) {responseToClient(exchange.getRequestHeaders().get("sender").get(0), exchange);}
             }
-            catch (Exception e){
-                System.out.println(e.getMessage());
-                exchange.sendResponseHeaders(404, "Erreur".length());
-                exchange.getResponseBody().write("Erreur".getBytes());}}
-        else {
-            exchange.sendResponseHeaders(404, "Erreur".length());
-            exchange.getResponseBody().write("Erreur".getBytes());}
+            catch (Exception e){exchange.sendResponseHeaders(404, "Erreur".length());exchange.getResponseBody().write("Erreur".getBytes());}}
+        else {exchange.sendResponseHeaders(404, "Erreur".length());exchange.getResponseBody().write("Erreur".getBytes());}
         exchange.close();}
+
     public void response(StartSchema startSchema, HttpExchange exchange) throws  IOException{
         if (startSchema.isValid()) {
             exchange.sendResponseHeaders(202, startSchema.toString().length());

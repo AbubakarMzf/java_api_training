@@ -4,11 +4,13 @@ public class Torpilleur implements Objet{
     private final int abscisse;
     private final int ordonee;
     private final String nom;
+    private final int id;
 
-    public Torpilleur(int abscisse, int ordonee){
+    public Torpilleur(int id, int abscisse, int ordonee){
         this.abscisse = abscisse;
         this.ordonee = ordonee;
         this.nom = "Torpilleur";
+        this.id = id;
     }
     @Override
     public int getAbscisse() {
@@ -21,6 +23,9 @@ public class Torpilleur implements Objet{
     public String getNom() {
         return nom;
     }
-
+    @Override
+    public int getId() {
+        return this.id;
+    }
 
 }

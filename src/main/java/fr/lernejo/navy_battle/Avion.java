@@ -4,10 +4,11 @@ public class Avion implements Objet{
     private final int abscisse;
     private final int ordonee;
     private final String nom;
-
-    public Avion(int abscisse, int ordonee){
+    private final int id;
+    public Avion(int id, int abscisse, int ordonee){
         this.abscisse = abscisse;
         this.ordonee = ordonee;
+        this.id = id;
         this.nom = "Avion";
     }
     @Override
@@ -22,5 +23,8 @@ public class Avion implements Objet{
     public String getNom() {
         return nom;
     }
-
+    @Override
+    public int getId() {
+        return this.id;
+    }
 }
