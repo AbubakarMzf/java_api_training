@@ -42,39 +42,19 @@ public class tirHandler implements HttpHandler {
     }
 
     public void handle(HttpExchange exchange) throws IOException {
-        boolean checkV = checkVerb(exchange);
         if (checkVerb(exchange)) {
             try {
-                //System.out.println("Bonjour je suis dans tir");
                 String cases = this.getQueryMap(exchange.getRequestURI().getQuery());
                 String result = sea.checkPosition(cases.charAt(0) - 65 ,(cases.charAt(1) - 1) % 48);
                 boolean shipLeft = sea.getSea().size() != 0;
-
-
                 String response = "{\"consequence\":" + "\"" + result + "\"" + ", \"shipLeft\":" + "\"" + shipLeft + "\"" + "}";
-                exchange.getResponseHeaders().add("Content-Type", "application/json");
-                exchange.sendResponseHeaders(200, response.length());
-                try (OutputStream os = exchange.getResponseBody()) {
-                    os.write(response.toString().getBytes());
-                }
-
-
-                //System.out.println("la : " + getContent(exchange));
-                System.out.println("sender " + exchange.getRequestHeaders().get("sender").get(0));
-
-                System.out.println((this.current_cell[0] <= (7 * 7)-1) + " "+ shipLeft + " " + this.ship_left[0]);
+                exchange.getResponseHeaders().add("Content-Type", "application/json");exchange.sendResponseHeaders(200, response.length());
+                try (OutputStream os = exchange.getResponseBody()) {os.write(response.toString().getBytes());}
                 if (this.current_cell[0] <= (7 * 7)-1 && shipLeft && this.ship_left[0]) {
                     String body = sendRequestFireClient(exchange.getRequestHeaders().get("sender").get(0), exchange);
-                    System.out.println(body);
                     Matcher matcher = Pattern.compile("\"shipLeft\":\"(.*?)\"").matcher(body);
-                    if (matcher.find()) {
-                        this.ship_left[0] = Boolean.valueOf(matcher.find(1));
-                    }
-                }
-            }
-            catch (Exception e){
-                System.out.println(e.getMessage());
-                exchange.sendResponseHeaders(400, "Erreur".length());exchange.getResponseBody().write("Erreur".getBytes());}}
+                    if (matcher.find()) {this.ship_left[0] = Boolean.valueOf(matcher.find(1));}}}
+            catch (Exception e){exchange.sendResponseHeaders(400, "Erreur".length());exchange.getResponseBody().write("Erreur".getBytes());}}
         else {exchange.sendResponseHeaders(404, "Erreur".length());exchange.getResponseBody().write("Erreur".getBytes());}
         exchange.close();}
 

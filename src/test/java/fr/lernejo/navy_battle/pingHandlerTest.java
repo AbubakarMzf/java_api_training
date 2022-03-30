@@ -9,6 +9,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 class pingHandlerTest {
+
     @Test
     void test_route_ping() {
         try {
@@ -22,6 +23,26 @@ class pingHandlerTest {
                 .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             Assertions.assertThat(response.statusCode()).isEqualTo(404);
+        }catch(Exception e) {}
+    }
+
+    @Test
+    void test_route_ping2() {
+        try {
+            Server serverClass = new Server(5001);
+            HttpServer server = serverClass.createServer(serverClass);
+            Sea sea= new Sea();
+            serverClass.createContext(server,sea);
+            server.start();
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest requeteGet = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:5001/ping"))
+                .setHeader("Accept", "application/json")
+                .setHeader("Content-Type", "application/json")
+                .GET()
+                .build();
+            HttpResponse<String> response = client.send(requeteGet, HttpResponse.BodyHandlers.ofString());
+            Assertions.assertThat(response.statusCode()).isEqualTo(200);
         }catch(Exception e) {}
     }
 }
