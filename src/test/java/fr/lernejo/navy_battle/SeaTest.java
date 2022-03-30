@@ -10,6 +10,6 @@ class SeaTest {
     void test_sea1() {
         Sea sea = new Sea();
         int size = sea.getSea().size();
-        Assertions.assertThat(size).isEqualTo(5);
+        Assertions.assertThat(size).isEqualTo(17);
     }
 }
