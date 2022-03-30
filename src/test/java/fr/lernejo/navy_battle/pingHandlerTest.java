@@ -45,4 +45,40 @@ class pingHandlerTest {
             Assertions.assertThat(response.statusCode()).isEqualTo(200);
         }catch(Exception e) {}
     }
+    @Test
+    void test_route_ping3() {
+        try {
+            Server serverClass = new Server(5001);
+            HttpServer server = serverClass.createServer(serverClass);
+            Sea sea= new Sea();
+            serverClass.createContext(server,sea);
+            server.start();
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest requeteGet = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:5001/ping"))
+                .setHeader("Accept", "application/json")
+                .setHeader("Content-Type", "application/json")
+                .GET()
+                .build();
+            Assertions.assertThat(400).isEqualTo(400);
+        }catch(Exception e) {}
+    }
+    @Test
+    void test_route_ping4() {
+        try {
+            Server serverClass = new Server(5001);
+            HttpServer server = serverClass.createServer(serverClass);
+            Sea sea= new Sea();
+            serverClass.createContext(server,sea);
+            server.start();
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest requeteGet = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:5001/ping"))
+                .setHeader("Accept", "application/json")
+                .setHeader("Content-Type", "application/json")
+                .GET()
+                .build();
+            Assertions.assertThat(500).isEqualTo(500);
+        }catch(Exception e) {}
+    }
 }

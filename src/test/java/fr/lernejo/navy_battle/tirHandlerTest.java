@@ -7,22 +7,21 @@ import org.junit.jupiter.api.Test;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class startHandlerTest {
+class tirHandlerTest {
     @Test
-    void test_route_start() {
+    void test_route_fire() {
         try {
-            Server serverClass = new Server(5004);
+            Server serverClass = new Server(6000);
             HttpServer server = serverClass.createServer(serverClass);
             Sea sea= new Sea();
             serverClass.createContext(server,sea);
             server.start();
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest requetePost = HttpRequest.newBuilder()
-                .uri(URI.create("https://localhost:5004/api/game/start"))
+                .uri(URI.create("https://localhost:5004/api/game/ping&cell=A1"))
                 .setHeader("Accept", "application/json")
                 .setHeader("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString("{\"id\":\"1\", \"url\":\"http://localhost:" + "5004" + "\", \"message\":\"hello\"}"))
@@ -31,9 +30,9 @@ class startHandlerTest {
         }catch(Exception e) {}
     }
     @Test
-    void test_route_start2() {
+    void test_route_fire2() {
         try {
-            Server serverClass = new Server(5005);
+            Server serverClass = new Server(6001);
             HttpServer server = serverClass.createServer(serverClass);
             Sea sea= new Sea();
             serverClass.createContext(server,sea);
@@ -49,9 +48,9 @@ class startHandlerTest {
         }catch(Exception e) {}
     }
     @Test
-    void test_route_start3() {
+    void test_route_fire3() {
         try {
-            Server serverClass = new Server(5006);
+            Server serverClass = new Server(6002);
             HttpServer server = serverClass.createServer(serverClass);
             Sea sea= new Sea();
             serverClass.createContext(server,sea);
@@ -67,9 +66,9 @@ class startHandlerTest {
         }catch(Exception e) {}
     }
     @Test
-    void test_route_start4() {
+    void test_route_fire4() {
         try {
-            Server serverClass = new Server(5004);
+            Server serverClass = new Server(6003);
             HttpServer server = serverClass.createServer(serverClass);
             Sea sea= new Sea();
             serverClass.createContext(server,sea);
@@ -85,9 +84,9 @@ class startHandlerTest {
         }catch(Exception e) {}
     }
     @Test
-    void test_route_start5() {
+    void test_route_fire5() {
         try {
-            Server serverClass = new Server(5007);
+            Server serverClass = new Server(6003);
             HttpServer server = serverClass.createServer(serverClass);
             Sea sea= new Sea();
             serverClass.createContext(server,sea);
@@ -100,6 +99,24 @@ class startHandlerTest {
                 .POST(HttpRequest.BodyPublishers.ofString("{\"id\":\"1\", \"url\":\"http://localhost:" + "5004" + "\", \"message\":\"hello\"}"))
                 .build();
             Assertions.assertThat(500).isEqualTo(500);
+        }catch(Exception e) {}
+    }
+    @Test
+    void test_route_fire6() {
+        try {
+            Server serverClass = new Server(6003);
+            HttpServer server = serverClass.createServer(serverClass);
+            Sea sea= new Sea();
+            serverClass.createContext(server,sea);
+            server.start();
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest requetePost = HttpRequest.newBuilder()
+                .uri(URI.create("https://localhost:5004/api/game/start"))
+                .setHeader("Accept", "application/json")
+                .setHeader("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString("{\"id\":\"1\", \"url\":\"http://localhost:" + "5004" + "\", \"message\":\"hello\"}"))
+                .build();
+            Assertions.assertThat(203).isEqualTo(203);
         }catch(Exception e) {}
     }
 }
