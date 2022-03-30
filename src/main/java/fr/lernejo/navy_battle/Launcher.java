@@ -18,7 +18,6 @@ public class Launcher {
                 serverClass.createContext(server, sea);
                 if (args.length == 2) {serverClass.initClient(args[1]);}
                 server.start();
-                serverClass.playGame();
             }
             else{System.out.println("Parameter missing. Enter a port.");}
         } catch (NumberFormatException e) {System.out.println("Invalid parameter. First parameter should be an integer.");} catch (InterruptedException e){e.printStackTrace();}

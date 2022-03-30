@@ -20,7 +20,9 @@ public class Server {
         InetSocketAddress addr = new InetSocketAddress(this.port);
         return HttpServer.create(addr, 0);
     }
-
+    public int getPort() {
+        return port;
+    }
     public void createContext(HttpServer server, Sea sea) throws IOException {
         server.setExecutor(Executors.newFixedThreadPool(1));
         server.createContext("/ping", new pingHandler());
@@ -38,9 +40,6 @@ public class Server {
             .POST(HttpRequest.BodyPublishers.ofString("{\"id\":\"1\", \"url\":\"http://localhost:" + this.port + "\", \"message\":\"hello\"}"))
             .build();
         return client.send(requetePost, HttpResponse.BodyHandlers.ofString());
-    }
-    public void playGame(){
-
     }
 
 }
